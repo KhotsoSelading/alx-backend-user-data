@@ -9,7 +9,6 @@ Date: 12-02-2024
 import re
 from typing import List, TypeVar
 from flask import request
-from pathlib import Path
 
 
 class Auth:
@@ -38,7 +37,11 @@ class Auth:
             return True
 
         for excluded_path in excluded_paths:
-            if Path(path).match(excluded_path):
+            if excluded_path.endswith("*"):
+                regex_pattern = re.escape(excluded_path[:-1]) + ".*"
+                if re.match(regex_pattern, path):
+                    return False
+            elif path.startswith(excluded_path.rstrip('/')):
                 return False
 
         return True
