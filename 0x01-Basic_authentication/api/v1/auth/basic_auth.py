@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
-"""Basic authentication module for the API.
+
 """
+Topic: Basic authentication
+Author: Khotso Selading
+Date: 12-02-2024
+"""
+
 import re
 import base64
 import binascii
@@ -11,7 +16,26 @@ from models.user import User
 
 
 class BasicAuth(Auth):
-    """Basic authentication class.
+    """A class implementing Basic authentication methods.
+
+    Methods:
+        extract_base64_authorization_header(authorization_header: str) -> str:
+            Extracts the Base64 part of the Authorization header for Basic
+            Authentication.
+
+        decode_base64_authorization_header(base64_authorization_header: str)
+        -> str: Decodes a base64-encoded authorization header.
+
+        extract_user_credentials(decoded_base64_authorization_header: str)
+        -> Tuple[str, str]: Extracts user credentials from a base64-decoded
+        authorization header using Basic authentication flow.
+
+        user_object_from_credentials(user_email: str, user_pwd: str)
+        -> TypeVar('User'): Retrieves a user based on the user's authentication
+        credentials.
+
+        current_user(request=None) -> TypeVar('User'):
+            Retrieves the user from a request.
     """
     def extract_base64_authorization_header(
             self,
