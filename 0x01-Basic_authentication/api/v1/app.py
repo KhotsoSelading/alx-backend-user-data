@@ -22,7 +22,6 @@ elif (os.environ.get("AUTH_TYPE") == "basic_auth"):
     auth = BasicAuth()
 
 
-
 @app.errorhandler(404)
 def not_found(error) -> str:
     """ Not found handler
@@ -42,6 +41,19 @@ def forbidden(error) -> str:
     """Forbidden handler
     """
     return jsonify({"error": "Forbidden"}), 403
+
+
+@app.before_request
+def before_request_error() -> str:
+    """Forbidden handler
+    """
+    paths = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
+    if (auth is None or auth.require_auth(request.path, paths) is False):
+        pass
+    elif (auth.authorization_header(request) is None):
+        abort(401)
+    elif (auth.current_user(request) is None):
+        abort(403)
 
 
 if __name__ == "__main__":
