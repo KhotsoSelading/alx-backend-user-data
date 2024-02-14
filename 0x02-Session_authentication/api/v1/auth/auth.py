@@ -75,6 +75,12 @@ class Auth:
 
     def session_cookie(self, request=None) -> str:
         """Gets the value of the cookie named SESSION_NAME.
+
+        Args:
+            request (Request, optional): The Flask request object.
+
+        Returns:
+            str: The value of the session cookie.
         """
         if request is not None:
             cookie_name = os.getenv('SESSION_NAME')
