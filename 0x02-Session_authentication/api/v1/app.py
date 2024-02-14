@@ -23,6 +23,12 @@ elif (os.environ.get("AUTH_TYPE") == "basic_auth"):
 elif (os.environ.get("AUTH_TYPE") == "session_auth"):
     from api.v1.auth.session_auth import SessionAuth
     auth = SessionAuth()
+elif (os.environ.get("AUTH_TYPE") == "session_db_auth"):
+    from api.v1.auth.session_db_auth import SessionDBAuth
+    auth = SessionDBAuth
+elif (os.environ.get("AUTH_TYPE") == "session_exp_auth"):
+    from api.v1.auth.session_db_auth import SessionExpAuth
+    auth = SessionExpAuth
 else:
     auth = None
 
