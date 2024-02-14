@@ -56,8 +56,8 @@ def before_request_error() -> str:
              '/api/v1/auth_session/login/']
     if (auth is None or auth.require_auth(request.path, paths) is False):
         pass
-    elif (auth.authorization_header(request)
-          is None and auth.session_cookie(request) is None):
+    elif (auth.authorization_header(request) is None and
+          auth.session_cookie(request) is None):
         abort(401)
     elif (auth.authorization_header(request) is None):
         abort(401)
