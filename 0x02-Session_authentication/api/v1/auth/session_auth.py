@@ -12,4 +12,8 @@ from models.user import User
 
 
 class SessionAuth(Auth):
+    """Session authentication class.
+
+    This class provides methods to manage user sessions.
+    """
     pass
