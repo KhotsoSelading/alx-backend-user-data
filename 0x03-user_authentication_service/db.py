@@ -42,16 +42,13 @@ class DB:
             hashed_password (str): The hashed password of the user.
 
         Returns:
-            User: The created User object, or None if an exception occurred.
+            user_obj: The created User object, or None if an exception
+            occurred.
         """
-        try:
-            new_user = User(email=email, hashed_password=hashed_password)
-            self._session.add(new_user)
-            self._session.commit()
-        except Exception:
-            self._session.rollback()
-            new_user = None
-        return new_user
+        user_obj = User(email=email, hashed_password=hashed_password)
+        self._session.add(user_obj)
+        self._session.commit()
+        return user_obj
 
     def find_user_by(self, **kwargs) -> User:
         """Find a user in the database by the specified criteria.
