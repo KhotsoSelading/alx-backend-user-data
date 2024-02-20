@@ -67,19 +67,13 @@ class DB:
             InvalidRequestError: If an invalid filter is passed.
             NoResultFound: If no user is found matching the filters.
         """
-        fields, values = [], []
-        for key, value in kwargs.items():
-            if hasattr(User, key):
-                fields.append(getattr(User, key))
-                values.append(value)
-            else:
-                raise InvalidRequestError()
-        result = self._session.query(User).filter(
-            tuple_(*fields).in_([tuple(values)])
-        ).first()
-        if result is None:
-            raise NoResultFound()
-        return result
+        if not kwargs or any(x not in VALID_FIELDS for x in kwargs):
+            raise InvalidRequestError
+        session = self._session
+        try:
+            return session.query(User).filter_by(**kwargs).one()
+        except Exception:
+            raise NoResultFound
 
     def update_user(self, user_id: int, **kwargs) -> None:
         """Updates a user based on a given id.
