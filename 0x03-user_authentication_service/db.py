@@ -38,24 +38,23 @@ class DB:
         return self.__session
 
     def add_user(self, email: str, hashed_password: str) -> User:
-        """
-        Add a new user to the database.
+        """Adds a new user to the database.
 
         Args:
             email (str): The email of the user.
             hashed_password (str): The hashed password of the user.
 
         Returns:
-            User: The created User object.
+            User: The created User object, or None if an exception occurred.
         """
-        user = User(email=email, hashed_password=hashed_password)
         try:
-            self._session.add(user)
+            new_user = User(email=email, hashed_password=hashed_password)
+            self._session.add(new_user)
             self._session.commit()
-            return user
-        except IntegrityError:
+        except Exception:
             self._session.rollback()
-            raise ValueError("User already exists with the given email.")
+            new_user = None
+        return new_user
 
     def find_user_by(self, **kwargs) -> User:
         """Find a user in the database by the specified criteria.
