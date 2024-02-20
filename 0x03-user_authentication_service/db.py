@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
-"""
-Topic: User Authentication Service
-Author: Khotso Selading
-Date: 19-02-2024
+"""DB module
 """
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
