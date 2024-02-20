@@ -42,7 +42,8 @@ class DB:
             hashed_password (str): The hashed password of the user.
 
         Returns:
-            new_user: The created User object, or None if an exception occurred.
+            new_user: The created User object, or None if an exception
+            occurred.
         """
         try:
             new_user = User(email=email, hashed_password=hashed_password)
