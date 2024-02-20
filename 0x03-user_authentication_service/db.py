@@ -39,9 +39,7 @@ class DB:
 
     def add_user(self, email: str, hashed_password: str) -> User:
         """
-        Adds a new user to the Database.
-        """
-        """Add a new user to the database.
+        Add a new user to the database.
 
         Args:
             email (str): The email of the user.
