@@ -49,3 +49,50 @@ class DB:
         self._session.add(new_user)
         self._session.commit()
         return new_user
+
+    def find_user_by(self, **kwargs) -> User:
+        """Finds a user based on a set of filters.
+
+        Args:
+            **kwargs: Arbitrary keyword arguments representing the filters.
+
+        Returns:
+            User: The first user found matching the filters.
+
+        Raises:
+            InvalidRequestError: If an invalid filter is passed.
+            NoResultFound: If no user is found matching the filters.
+        """
+        if not kwargs or any(x not in VALID_FIELDS for x in kwargs):
+            raise InvalidRequestError
+        session = self._session
+        try:
+            return session.query(User).filter_by(**kwargs).one()
+        except Exception:
+            raise NoResultFound
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """Updates a user based on a given id.
+
+        Args:
+            user_id (int): The ID of the user to update.
+            **kwargs: Arbitrary keyword arguments representing the attributes
+            to update.
+
+        Raises:
+            ValueError: If an invalid attribute is passed.
+        """
+        user = self.find_user_by(id=user_id)
+        if user is None:
+            return
+        update_source = {}
+        for key, value in kwargs.items():
+            if hasattr(User, key):
+                update_source[getattr(User, key)] = value
+            else:
+                raise ValueError()
+        self._session.query(User).filter(User.id == user_id).update(
+            update_source,
+            synchronize_session=False,
+        )
+        self._session.commit()
