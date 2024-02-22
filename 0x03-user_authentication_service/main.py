@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""A simple end-to-end (E2E) integration test for `app.py`.
+"""
+Topic: User Authentication Service
+Author: Khotso Selading
+Date: 19-02-2024
 """
 import requests
 
@@ -11,7 +14,12 @@ BASE_URL = "http://0.0.0.0:5000"
 
 
 def register_user(email: str, password: str) -> None:
-    """Tests registering a user.
+    """
+    Registers a user with the provided email and password.
+
+    email: The email of the user.
+    password: The password of the user.
+    return: None
     """
     url = "{}/users".format(BASE_URL)
     body = {
@@ -27,7 +35,12 @@ def register_user(email: str, password: str) -> None:
 
 
 def log_in_wrong_password(email: str, password: str) -> None:
-    """Tests logging in with a wrong password.
+    """
+    Tests logging in with a wrong password.
+
+    email: The email of the user.
+    password: The password of the user.
+    return: None
     """
     url = "{}/sessions".format(BASE_URL)
     body = {
@@ -39,7 +52,12 @@ def log_in_wrong_password(email: str, password: str) -> None:
 
 
 def log_in(email: str, password: str) -> str:
-    """Tests logging in.
+    """
+    Logs in a user with the provided email and password.
+
+    email: The email of the user.
+    password: The password of the user.
+    return: The session ID if login is successful.
     """
     url = "{}/sessions".format(BASE_URL)
     body = {
@@ -53,7 +71,10 @@ def log_in(email: str, password: str) -> str:
 
 
 def profile_unlogged() -> None:
-    """Tests retrieving profile information whilst logged out.
+    """
+    Tests retrieving profile information whilst logged out.
+
+    return: None
     """
     url = "{}/profile".format(BASE_URL)
     res = requests.get(url)
@@ -61,7 +82,11 @@ def profile_unlogged() -> None:
 
 
 def profile_logged(session_id: str) -> None:
-    """Tests retrieving profile information whilst logged in.
+    """
+    Tests retrieving profile information whilst logged in.
+
+    session_id: The session ID of the logged-in user.
+    return: None
     """
     url = "{}/profile".format(BASE_URL)
     req_cookies = {
@@ -73,7 +98,11 @@ def profile_logged(session_id: str) -> None:
 
 
 def log_out(session_id: str) -> None:
-    """Tests logging out of a session.
+    """
+    Tests logging out of a session.
+
+    param session_id: The session ID of the logged-in user.
+    return: None
     """
     url = "{}/sessions".format(BASE_URL)
     req_cookies = {
@@ -85,7 +114,11 @@ def log_out(session_id: str) -> None:
 
 
 def reset_password_token(email: str) -> str:
-    """Tests requesting a password reset.
+    """
+    Tests requesting a password reset.
+
+    email: The email of the user.
+    return: The reset token.
     """
     url = "{}/reset_password".format(BASE_URL)
     body = {'email': email}
@@ -98,7 +131,13 @@ def reset_password_token(email: str) -> str:
 
 
 def update_password(email: str, reset_token: str, new_password: str) -> None:
-    """Tests updating a user's password.
+    """
+    Tests updating a user's password.
+
+    email: The email of the user.
+    reset_token: The reset token received after requesting a password reset.
+    param new_password: The new password to be set for the user.
+    return: None
     """
     url = "{}/reset_password".format(BASE_URL)
     body = {
